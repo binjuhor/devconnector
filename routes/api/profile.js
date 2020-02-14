@@ -76,20 +76,20 @@ router.post('/', [auth, [
 
         // Build social object
         profileFields.social = {};
-        if(youtube) profileFields.social.youtube = youtube;
-        if(facebook) profileFields.social.facebook = facebook;
-        if(twitter) profileFields.social.twitter = twitter;
-        if(instagram) profileFields.social.instagram = instagram;
-        if(linkedin) profileFields.social.linkedin = linkedin;
+        if (youtube) profileFields.social.youtube = youtube;
+        if (facebook) profileFields.social.facebook = facebook;
+        if (twitter) profileFields.social.twitter = twitter;
+        if (instagram) profileFields.social.instagram = instagram;
+        if (linkedin) profileFields.social.linkedin = linkedin;
 
         try {
-            let profile = await Profile.findOne({ user: req.user.id });
-            if(profile) {
+            let profile = await Profile.findOne({user: req.user.id});
+            if (profile) {
                 // Update
                 profile = await Profile.findOneAndUpdate(
-                    { user: req.user.id },
-                    {$set : profileFields },
-                    { new: true }
+                    {user: req.user.id},
+                    {$set: profileFields},
+                    {new: true}
                 );
                 return res.json(profile);
             }
@@ -97,7 +97,7 @@ router.post('/', [auth, [
             profile = new Profile(profileFields);
             await profile.save();
             res.json(profile);
-        } catch(err) {
+        } catch (err) {
             console.error(err.message);
             res.status(500).send('Server Error');
         }
@@ -105,5 +105,17 @@ router.post('/', [auth, [
     }
 );
 
+//@route  GET api/profile
+//@desc   Get all profiles
+//@access Public
+router.get('/', async (req, res) => {
+    try {
+        const profiles = await Profile.find().populate('user', ['name', 'avatar']);
+        res.json(profiles);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
 
 module.exports = router;
