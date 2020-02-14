@@ -10,7 +10,7 @@ const ProfileSchema = new mongoose.Schema({
     website: {
         type: String
     },
-    localtion: {
+    location: {
         type: String
     },
     status: {
@@ -77,4 +77,4 @@ const ProfileSchema = new mongoose.Schema({
         default: Date.now
     }
 });
-module.exports = Profile = mongoose.model('profile', ProfileSchema);
+module.exports = Profile = mongoose.model('Profile', ProfileSchema);
