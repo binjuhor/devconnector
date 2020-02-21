@@ -14,12 +14,6 @@ const Login = () => {
     const onSubmit = async e => {
         e.preventDefault();
         try{
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }
-
 
             console.log('Successful');
         } catch (err) {
