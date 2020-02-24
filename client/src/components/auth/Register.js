@@ -1,8 +1,11 @@
 import React, {Fragment, useState} from 'react';
+import {connect} from "react-redux";
 import {Link} from 'react-router-dom';
-import axios from 'axios';
+import PropTypes from 'prop-types';
 
-const Register = () => {
+import {setAlert} from "../../actions/alert";
+
+const Register = ({setAlert}) => {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -17,24 +20,12 @@ const Register = () => {
     const onSubmit = async e => {
         e.preventDefault();
         if (password !== password2) {
-            console.log('Password do not match');
+            setAlert('Password do not match', 'danger');
         } else {
-            const newUser = {
-                name,
-                email,
-                password
-            }
+            console.log('SUCCESS')
 
-            try{
-                const config = {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                }
+            try {
 
-                const body = JSON.stringify(newUser);
-                const res = await axios.post('/api/users', body, config);
-                console.log(res.data);
             } catch (err) {
                 console.error(err.response.data);
             }
@@ -50,7 +41,8 @@ const Register = () => {
                 <input type="text" placeholder="Name" name="name" value={name} onChange={e => onChange(e)} required/>
             </div>
             <div className="form-group">
-                <input type="email" required placeholder="Email Address" name="email" value={email} onChange={e => onChange(e)}/>
+                <input type="email" required placeholder="Email Address" name="email" value={email}
+                       onChange={e => onChange(e)}/>
                 <small className="form-text"
                 >This site uses Gravatar so if you want a profile image, use a
                     Gravatar email</small
@@ -82,6 +74,11 @@ const Register = () => {
             Already have an account? <Link to="/login">Sign In</Link>
         </p>
     </Fragment>
-}
+};
 
-export default Register
+Register.propTypes = {
+    setAlert: PropTypes.func.isRequired
+};
+
+
+export default connect(null, {setAlert})(Register);
