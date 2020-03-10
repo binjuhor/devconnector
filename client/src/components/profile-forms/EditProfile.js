@@ -2,7 +2,7 @@ import React, {Fragment, useState} from "react";
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-const CreateProfile = props => {
+const EditProfile = props => {
     const [formData, setFormData] = useState({
         company: '',
         website: '',
@@ -156,6 +156,6 @@ const CreateProfile = props => {
     );
 }
 
-CreateProfile.propTypes = { }
+EditProfile.propTypes = { }
 
-export default CreateProfile;
+export default EditProfile;
