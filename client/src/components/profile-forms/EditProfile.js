@@ -39,11 +39,11 @@ const EditProfile = ({
             skills: loading || !profile.skills ? '' : profile.skills.join(', '),
             githubusername: loading || !profile.githubusername ? '' : profile.githubusername,
             bio: loading || !profile.bio ? '' : profile.bio,
-            twitter: loading || !profile.twitter ? '' : profile.social.twitter,
-            facebook: loading || !profile.facebook ? '' : profile.social.facebook,
-            linkedin: loading || !profile.linkedin ? '' : profile.social.linkedin,
-            youtube: loading || !profile.youtube ? '' : profile.social.youtube,
-            instagram: loading || !profile.instagram ? '' : profile.social.instagram
+            twitter: loading || !profile.social.twitter ? '' : profile.social.twitter,
+            facebook: loading || !profile.social.facebook ? '' : profile.social.facebook,
+            linkedin: loading || !profile.social.linkedin ? '' : profile.social.linkedin,
+            youtube: loading || !profile.social.youtube ? '' : profile.social.youtube,
+            instagram: loading || !profile.social.instagram ? '' : profile.social.instagram
         });
     }, [loading]);
 
