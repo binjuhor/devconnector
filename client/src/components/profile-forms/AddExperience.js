@@ -37,7 +37,7 @@ const AddExperience = ({addExperience, history}) => {
             </p>
             <small>* = required field</small>
             <form className="form" onSubmit={e => onSubmit(e)}>
-                <div className="form-group">`
+                <div className="form-group">
                     <input type="text" placeholder="* Job Title" name="title" value={title} onChange={e=>onChange(e)} required/>
                 </div>
                 <div className="form-group">
