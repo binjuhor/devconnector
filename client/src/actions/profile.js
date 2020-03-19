@@ -48,7 +48,6 @@ export const getProfiles = () => async dispatch => {
 
 // Get github repos
 export const getGithubRepos = username => async dispatch => {
-    dispatch({ type: CLEAR_PROFILE });
 
     try {
         const res = await axios.get(`/api/profile/github/${username}`);
