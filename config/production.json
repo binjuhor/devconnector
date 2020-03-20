@@ -1,5 +1,5 @@
 {
   "mongoURI" : "mongodb+srv://binjuhor:j1uh8RnbEtnmKdrj@cluster0-icm7y.gcp.mongodb.net/test?retryWrites=true&w=majority",
-  "jwtSecret": "mysecrettoken",
-  "githubToken": "1888b03369b3b8380cd01b66636be0f0fe910fae"
+  "jwtSecret": "asz@8b03369b3b8380cd01b66636be0f0fe910fae",
+  "githubToken": ""
 }
