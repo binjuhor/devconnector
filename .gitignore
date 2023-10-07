@@ -2,3 +2,4 @@ node_modules/
 default.json
 .now
 yarn.lock
+/client/build/static
