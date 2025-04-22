@@ -34,7 +34,7 @@
     "express-validator": "^6.4.0",
     "gravatar": "^1.8.0",
     "jsonwebtoken": "^9.2.0",
-    "mongoose": "^5.8.12",
+    "mongoose": "^6.13.6",
     "request": "^2.88.2"
   },
   "devDependencies": {
