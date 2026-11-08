@@ -1,7 +1,7 @@
 import React, {Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
-import Moment from 'react-moment';
+import formatDate from '../../utils/formatDate';
 import {connect} from 'react-redux';
 import {addLike, removeLike, deletePost} from '../../actions/post';
 
@@ -11,7 +11,7 @@ const PostItem = ({
     auth,
     deletePost,
     post: {  _id, text, name, avatar, user, likes, comments, date },
-    showActions
+    showActions = true
     }) => {
     return (<div className="post bg-white p-1 my-1">
         <div>
@@ -28,7 +28,7 @@ const PostItem = ({
         <div>
             <p className="my-1">{text}</p>
             <p className="post-date">
-                Posted on <Moment format={'YYYY/MM/DD'}>{date}</Moment>
+                Posted on {formatDate(date)}
             </p>
             {showActions && <Fragment>
                 <button onClick={e => addLike(_id)} type="button" className="btn btn-light">
@@ -59,10 +59,6 @@ const PostItem = ({
         </div>
     </div>);
 };
-
-PostItem.defaultProps = {
-    showActions: true
-}
 
 PostItem.propTypes = {
     auth: PropTypes.object.isRequired,

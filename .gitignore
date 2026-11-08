@@ -1,5 +1,8 @@
 node_modules/
-default.json
+config/default.json
+.env
 .now
-yarn.lock
+.DS_Store
 client/build/
+client/dist/
+coverage/

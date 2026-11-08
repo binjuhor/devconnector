@@ -1,5 +1,4 @@
 const express = require('express');
-const request = require('request');
 const config = require('config');
 const router = express.Router();
 const auth = require('../../middleware/auth');
@@ -25,7 +24,7 @@ router.get('/me', auth, async (req, res) => {
         res.json(profile);
     } catch (err) {
         console.error(err.message);
-        re.status(500).send('Server Error');
+        res.status(500).send('Server Error');
     }
 });
 
@@ -91,7 +90,7 @@ router.post('/', [auth, [
                 profile = await Profile.findOneAndUpdate(
                     {user: req.user.id},
                     {$set: profileFields},
-                    {new: true}
+                    {returnDocument: 'after'}
                 );
                 return res.json(profile);
             }
@@ -146,9 +145,9 @@ router.delete('/', auth, async (req, res) => {
         // Remove user posts
         await Posts.deleteMany({user: req.user.id});
         // Remove profile
-        await Profile.findOneAndRemove({user: req.user.id});
+        await Profile.findOneAndDelete({user: req.user.id});
         // Remove user
-        await User.findOneAndRemove({_id: req.user.id});
+        await User.findOneAndDelete({_id: req.user.id});
         res.json({msg: 'User deleted'});
     } catch (err) {
         console.error(err.message);
@@ -295,27 +294,23 @@ router.delete('/education/:edu_id', auth, async (req, res) => {
 // @route  GET api/profile/github/:username
 // @desc   Get user repos from GitHub
 // @access Public
-router.get('/github/:username', (req, res) => {
-    try{
-        const options = {
-            uri: encodeURI(
-                `https://api.github.com/users/${req.params.username}/repos?per_page=5&sort=created:asc`
-            ),
-            method: 'GET',
-            headers: { 'user_agent': 'node.js',
-                Authorization: `token ${config.get('githubToken')}`
-            }
+router.get('/github/:username', async (req, res) => {
+    try {
+        const uri = `https://api.github.com/users/${encodeURIComponent(req.params.username)}/repos?per_page=5&sort=created&direction=asc`;
+        const headers = {
+            'User-Agent': 'devconnector',
+            Accept: 'application/vnd.github+json'
         };
+        const token = config.has('githubToken') ? config.get('githubToken') : '';
+        if (token) headers.Authorization = `Bearer ${token}`;
 
-        request(options, (error, response, body) => {
-            if(error) console.error(error);
+        const response = await fetch(uri, { headers });
 
-            if(200 !== response.statusCode ){
-                return res.status(404).json({msg: 'No Github profile found'});
-            }
+        if (!response.ok) {
+            return res.status(404).json({msg: 'No Github profile found'});
+        }
 
-            res.send(JSON.parse(body));
-        })
+        res.json(await response.json());
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
