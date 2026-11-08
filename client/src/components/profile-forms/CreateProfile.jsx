@@ -1,16 +1,11 @@
-import React, {Fragment, useState, useEffect} from "react";
-import {Link, withRouter} from 'react-router-dom';
+import React, {Fragment, useState} from "react";
+import {Link, useNavigate} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {createProfile, getCurrentProfile} from "../../actions/profile";
+import {createProfile} from "../../actions/profile";
 
-const EditProfile = ({
-         profile: {profile, loading},
-         createProfile,
-         getCurrentProfile,
-         history
-     }) => {
-
+const CreateProfile = ({ createProfile }) => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         company: '',
         website: '',
@@ -27,26 +22,6 @@ const EditProfile = ({
     });
 
     const [displaySocialInputs, toggleSocialInputs] = useState(false);
-
-    useEffect(() => {
-        getCurrentProfile();
-
-        setFormData({
-            company: loading || !profile.company ? '' : profile.company,
-            website: loading || !profile.website ? '' : profile.website,
-            location: loading || !profile.location ? '' : profile.location,
-            status: loading || !profile.status ? '' : profile.status,
-            skills: loading || !profile.skills ? '' : profile.skills.join(', '),
-            githubusername: loading || !profile.githubusername ? '' : profile.githubusername,
-            bio: loading || !profile.bio ? '' : profile.bio,
-            twitter: loading || !profile.social.twitter ? '' : profile.social.twitter,
-            facebook: loading || !profile.social.facebook ? '' : profile.social.facebook,
-            linkedin: loading || !profile.social.linkedin ? '' : profile.social.linkedin,
-            youtube: loading || !profile.social.youtube ? '' : profile.social.youtube,
-            instagram: loading || !profile.social.instagram ? '' : profile.social.instagram
-        });
-        // eslint-disable-next-line
-    }, [loading, getCurrentProfile]);
 
     const {
         company,
@@ -67,7 +42,7 @@ const EditProfile = ({
 
     const onSubmit = e => {
         e.preventDefault();
-        createProfile(formData, history, true);
+        createProfile(formData, navigate);
     }
 
     return (
@@ -80,9 +55,9 @@ const EditProfile = ({
                 profile stand out
             </p>
             <small>* = required field</small>
-            <form className="form" onSubmit={e => onSubmit(e)}>
+            <form className="form" onSubmit={ e => onSubmit(e)}>
                 <div className="form-group">
-                    <select name="status" value={status} onChange={e => onChange(e)}>
+                    <select name="status" value={status} onChange={e=>onChange(e)}>
                         <option value="0">* Select Professional Status</option>
                         <option value="Developer">Developer</option>
                         <option value="Junior Developer">Junior Developer</option>
@@ -189,18 +164,8 @@ const EditProfile = ({
     );
 }
 
-EditProfile.propTypes = {
-    createProfile: PropTypes.func.isRequired,
-    getCurrentProfile: PropTypes.func.isRequired,
-    profile: PropTypes.object.isRequired
+CreateProfile.propTypes = {
+    createProfile: PropTypes.func.isRequired
 };
 
-const mapStateToProps = state => ({
-    profile: state.profile
-});
-
-export default connect(
-    mapStateToProps,
-    {createProfile, getCurrentProfile}
-)(withRouter(EditProfile)
-);
+export default connect(null, { createProfile })(CreateProfile);

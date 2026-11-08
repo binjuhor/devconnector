@@ -1,17 +1,19 @@
 import React, {Fragment, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Spinner from '../layout/Spinner';
 import PostItem from '../posts/PostItem';
 import { getPost } from '../../actions/post';
 import CommentForm from './CommentForm';
 import CommentItem from './CommentItem';
 
-const Post = ({ getPost, post: { post, loading }, match }) => {
+const Post = ({ getPost, post: { post, loading } }) => {
+    const { id } = useParams();
+
     useEffect(() => {
-        getPost(match.params.id)
-    }, [getPost, match.params.id]);
+        getPost(id);
+    }, [getPost, id]);
 
     return loading || post === null ? <Spinner/> : <Fragment>
         <Link to={'/posts'} className={'btn'}>Back To Posts</Link>

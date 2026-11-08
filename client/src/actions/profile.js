@@ -84,7 +84,7 @@ export const getProfileById = userId => async dispatch => {
 };
 
 // Create or update profile
-export const createProfile = (formData, history, edit= false) => async dispatch => {
+export const createProfile = (formData, navigate, edit = false) => async dispatch => {
     try {
         const config = {
             'Content-Type': 'application/json'
@@ -99,7 +99,7 @@ export const createProfile = (formData, history, edit= false) => async dispatch 
 
         dispatch( setAlert(edit?'Profile Updated':'Profile Created', 'success') );
         if(!edit) {
-            history.push('/dashboard');
+            navigate('/dashboard');
         }
     } catch (err) {
         const errors = err.response.data.errors;
@@ -116,7 +116,7 @@ export const createProfile = (formData, history, edit= false) => async dispatch 
 };
 
 // Add Experience
-export const addExperience = (formData, history ) => async dispatch => {
+export const addExperience = (formData, navigate) => async dispatch => {
     try {
         const config = {
             'Content-Type': 'application/json'
@@ -129,7 +129,7 @@ export const addExperience = (formData, history ) => async dispatch => {
         });
 
         dispatch( setAlert('Experience Added', 'success') );
-        history.push('/dashboard');
+        navigate('/dashboard');
     } catch (err) {
         const errors = err.response.data.errors;
 
@@ -145,7 +145,7 @@ export const addExperience = (formData, history ) => async dispatch => {
 };
 
 // Add Education
-export const addEducation = (formData, history ) => async dispatch => {
+export const addEducation = (formData, navigate) => async dispatch => {
     try {
         const config = {
             'Content-Type': 'application/json'
@@ -159,7 +159,7 @@ export const addEducation = (formData, history ) => async dispatch => {
         });
 
         dispatch( setAlert('Education Added', 'success') );
-        history.push('/dashboard');
+        navigate('/dashboard');
     } catch (err) {
         const errors = err.response.data.errors;
 
